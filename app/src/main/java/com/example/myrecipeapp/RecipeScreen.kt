@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -35,7 +36,11 @@ fun RecipeScreen(modifier: Modifier = Modifier) {
             }
 
             viewState.error != null ->{
-                Text("Error Occurred !")
+                Text(
+                    text = viewState.error ?: "Unknown error",
+                    color = Color.Red,
+                    modifier = Modifier.align(Alignment.Center)
+                )
             }
 
             else ->{
@@ -64,15 +69,16 @@ fun CategoryScreen(categories: List<Category>) {
 //How each item looks like
 @Composable
 fun CategoryItem(category: Category) {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(8.dp)){
-
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
         Image(
-            painter = rememberAsyncImagePainter(category.strCategorythumb),
+            painter = rememberAsyncImagePainter(category.strCategoryThumb),
             contentDescription = null,
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .aspectRatio(1f)
         )
 
@@ -84,4 +90,5 @@ fun CategoryItem(category: Category) {
         )
     }
 }
+
 
