@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -68,4 +69,7 @@ dependencies {
 
     // Coil - Image Loading
     implementation("io.coil-kt:coil-compose:2.6.0")
+
+    // Navigation
+    implementation("androidx.navigation:navigation-compose:2.9.0")
 }

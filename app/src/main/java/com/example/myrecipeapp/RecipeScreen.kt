@@ -1,6 +1,7 @@
 package com.example.myrecipeapp
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,9 +26,12 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 
 @Composable
-fun RecipeScreen(modifier: Modifier = Modifier) {
+fun RecipeScreen(modifier: Modifier = Modifier,
+                 navigateToDetail: (Category) -> Unit,
+                 viewState : MainViewModel.RecipeState
+) {
     val recipeViewModel: MainViewModel = viewModel()
-    val viewState by recipeViewModel.categoriesState
+   // val viewState by recipeViewModel.categoriesState
 
     Box(modifier = Modifier.fillMaxSize()){
         when{
@@ -37,7 +41,7 @@ fun RecipeScreen(modifier: Modifier = Modifier) {
 
             viewState.error != null ->{
                 Text(
-                    text = viewState.error ?: "Unknown error",
+                    text = viewState.error,
                     color = Color.Red,
                     modifier = Modifier.align(Alignment.Center)
                 )
@@ -45,7 +49,7 @@ fun RecipeScreen(modifier: Modifier = Modifier) {
 
             else ->{
                 // Display the list of categories
-                CategoryScreen(categories = viewState.list)
+                CategoryScreen(categories = viewState.list, navigateToDetail)
             }
 
         }
@@ -53,7 +57,7 @@ fun RecipeScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun CategoryScreen(categories: List<Category>) {
+fun CategoryScreen(categories: List<Category>, navigateToDetail: (Category) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2), // Renamed for clarity
         modifier = Modifier.fillMaxSize(),
@@ -61,18 +65,19 @@ fun CategoryScreen(categories: List<Category>) {
     ) {
         items(categories) {
             category ->
-            CategoryItem(category = category)
+            CategoryItem(category = category, navigateToDetail)
         }
     }
 }
 
 //How each item looks like
 @Composable
-fun CategoryItem(category: Category) {
+fun CategoryItem(category: Category, navigateToDetail: (Category)-> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
+            .clickable { navigateToDetail(category) }
     ) {
         Image(
             painter = rememberAsyncImagePainter(category.strCategoryThumb),

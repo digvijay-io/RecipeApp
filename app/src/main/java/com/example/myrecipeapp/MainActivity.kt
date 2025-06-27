@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.example.myrecipeapp.ui.theme.MyRecipeAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,9 +20,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyRecipeAppTheme {
+                val navController = rememberNavController()
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    RecipeScreen(
-                        modifier = Modifier.padding(innerPadding)
+                    RecipeApp(
+                        modifier = Modifier.padding(innerPadding),
+                        navController = navController
+
                     )
                 }
             }
